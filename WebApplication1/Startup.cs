@@ -1,18 +1,17 @@
-﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using WebLinkTrades.Dados.Context;
-using WebLinkTrades.Dados.ImplemantationTrades;
-using WebLinkTrades.Dados.Interfaces;
-using WebLinkTrades.Dados.Repository;
-using WebLinkTrades.Services.Implemantation;
-using WebLinkTrades.Services.Interfaces;
+using Microsoft.Extensions.Logging;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
-namespace WebLinkTrades
+namespace WebApplication1
 {
     public class Startup
     {
@@ -26,34 +25,12 @@ namespace WebLinkTrades
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddScoped<ITradesRepository, TradesRepository>();
-            services.AddScoped(typeof(IRepository<>),typeof( BaseRespository<>));
-
-            services.AddTransient<ITradesServices, TradesServices>();
-
-            services.AddDbContext<BaseContext>(
-                                options => options
-                                .UseSqlServer(Configuration.GetConnectionString("DefaultConnection"))
-                            );
-            services.AddCors(options =>
-            {
-                options.AddPolicy("AllowAll",
-                    builder =>
-                    {
-                        builder
-                        .AllowAnyOrigin()
-                        .AllowAnyMethod()
-                        .AllowAnyHeader();
-                    });
-            });
-
             services.AddControllers();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -69,7 +46,6 @@ namespace WebLinkTrades
             {
                 endpoints.MapControllers();
             });
-
         }
     }
 }

@@ -7,10 +7,10 @@ namespace WebLinkTrades.Dados.Interfaces
 {
     public interface IRepository<T> where T : class
     {
-        IEnumerable<T> GetAll();
+        Task<IEnumerable<T>> GetAll();
         T GetById(int id);
         T Save(T item);
-        T Update(T item);
+        T Update(T item);   
         bool Delete(int id);
     }
 }

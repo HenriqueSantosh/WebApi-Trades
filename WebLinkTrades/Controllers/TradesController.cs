@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using WebApiTrades.Model;
-using WebLinkTrades.BLL;
+using WebLinkTrades.Services.Interfaces;
 
 namespace WebApiTrades.Controllers
 {
@@ -16,17 +16,27 @@ namespace WebApiTrades.Controllers
     [ApiController]
     public class TradesController : ControllerBase
     {
+        private readonly ITradesServices _tradesServices;
+
+        public TradesController(ITradesServices tradesServices)
+        {
+            _tradesServices = tradesServices;
+        }
+
         // GET api/values
         [HttpGet]
-        public ActionResult<IEnumerable<Trades>> Get()
+        public async Task<ActionResult<IEnumerable<Trades>>> Get()
         {
-            ITradesBLL tradesBLL = new TradesBLL();
-            //IList < Trades >  trades = tradesBLL.GetTrades();
-            var webClient = new WebClient();
-            var json = webClient.DownloadString(@"Repository\Trades.json");
-            var trades = JsonConvert.DeserializeObject<IList<Trades>>(json);
-            var tradesOrdenados = trades.OrderBy(x => x.Ativo).ToList();
-            return Ok(tradesOrdenados);
+            try
+            {
+                var list = await _tradesServices.GetTodos();
+                return list.ToList();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
 
         }
 

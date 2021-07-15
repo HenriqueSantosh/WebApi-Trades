@@ -57,3 +57,5 @@ C:\Git\WebApi-Trades\WebLinkTrades\obj\Debug\netcoreapp3.1\WebLinkTrades.csproj.
 C:\Git\WebApi-Trades\WebLinkTrades\obj\Debug\netcoreapp3.1\WebLinkTrades.dll
 C:\Git\WebApi-Trades\WebLinkTrades\obj\Debug\netcoreapp3.1\WebLinkTrades.pdb
 C:\Git\WebApi-Trades\WebLinkTrades\obj\Debug\netcoreapp3.1\WebLinkTrades.genruntimeconfig.cache
+C:\Git\WebApi-Trades\WebLinkTrades\bin\Debug\netcoreapp3.1\Humanizer.dll
+C:\Git\WebApi-Trades\WebLinkTrades\bin\Debug\netcoreapp3.1\Microsoft.EntityFrameworkCore.Design.dll

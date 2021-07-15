@@ -1,40 +1,58 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using WebLinkTrades.Dados.Context;
 using WebLinkTrades.Dados.Interfaces;
 
 namespace WebLinkTrades.Dados.Repository
 {
     public class BaseRespository<T> : IRepository<T> where T : class
     {
-        public BaseRespository()
-        {
+        protected readonly BaseContext _context;
+        private readonly DbSet<T> _dataSet;
 
+        public BaseRespository(BaseContext context)
+        {
+            _context = context;
+            _dataSet = _context.Set<T>();
         }
         public bool Delete(int id)
         {
-            throw new NotImplementedException();
+           var entity = _dataSet.Find(id);
+
+            if (entity == null) return false;
+
+            _dataSet.Remove(entity);
+            _context.SaveChanges();
+
+            return true;
         }
 
-        public IEnumerable<T> GetAll()
+        public async Task<IEnumerable<T>> GetAll()
         {
-            throw new NotImplementedException();
+            return await _dataSet.ToListAsync();
         }
 
         public T GetById(int id)
         {
-            throw new NotImplementedException();
+           return  _dataSet.Find(id);
         }
 
         public T Save(T item)
         {
-            throw new NotImplementedException();
+            _dataSet.Add(item);
+            _context.SaveChanges();
+            return item;
         }
 
         public T Update(T item)
         {
-            throw new NotImplementedException();
+            _context.Entry(item).State = EntityState.Modified;
+            _context.Set<T>().Update(item);
+            _context.SaveChanges();
+            return item;
         }
     }
 }

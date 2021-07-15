@@ -13,6 +13,12 @@ namespace WebLinkTrades.Dados.Context
 
         }
 
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.UseSqlServer("Server=DESKTOP-EGGHI11\\SQLEXPRESS; Database=TradesApi; Trusted_Connection = true;");
+            base.OnConfiguring(optionsBuilder);
+        }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
 
