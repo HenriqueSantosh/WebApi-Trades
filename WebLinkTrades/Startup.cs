@@ -1,16 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Cors.Infrastructure;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Cors.Internal;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
+using Microsoft.Extensions.Hosting;
+using WebLinkTrades.Dados.Context;
+using WebLinkTrades.Dados.ImplemantationTrades;
+using WebLinkTrades.Dados.Interfaces;
+using WebLinkTrades.Dados.Repository;
+using WebLinkTrades.Services.Implemantation;
+using WebLinkTrades.Services.Interfaces;
 
 namespace WebLinkTrades
 {
@@ -26,6 +26,15 @@ namespace WebLinkTrades
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddScoped<ITradesRepository, TradesRepository>();
+            services.AddScoped(typeof(IRepository<>),typeof( BaseRespository<>));
+
+            services.AddTransient<ITradesServices, TradesServices>();
+
+            services.AddDbContext<BaseContext>(
+                                options => options
+                                .UseSqlServer(Configuration.GetConnectionString("DefaultConnection"))
+                            );
             services.AddCors(options =>
             {
                 options.AddPolicy("AllowAll",
@@ -38,35 +47,28 @@ namespace WebLinkTrades
                     });
             });
 
-            services.Configure<MvcOptions>(options =>
-            {
-                options.Filters.Add(new CorsAuthorizationFilterFactory("AllowAll"));
-            });
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddControllers();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseCors(op => {
+            app.UseHttpsRedirection();
 
-                  op.WithOrigins("http://localhost:49477/")
-                    .AllowAnyOrigin()
-                    .AllowAnyMethod()
-                    .AllowAnyHeader()
-                    .AllowCredentials();
-                });
+            app.UseRouting();
 
-            app.UseAuthentication();
+            app.UseAuthorization();
 
-            app.UseMvc();
-            
-
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+            });
 
         }
     }
