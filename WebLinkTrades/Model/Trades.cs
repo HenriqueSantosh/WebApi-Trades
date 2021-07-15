@@ -9,7 +9,7 @@ namespace WebApiTrades.Model
         public string Ativo { get; set; }
         public char TipoOperacao { get; set; }
         public int Quantidade { get; set; }
-        public double Preco { get; set; }
+        public decimal Preco { get; set; }
         public int Conta { get; set; }
 
     }

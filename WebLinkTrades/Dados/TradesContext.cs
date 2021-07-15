@@ -10,7 +10,7 @@ namespace WebLinkTrades.DAL
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer("Server = DESKTOP-IK7193A\\SQLEXPRESS; Database = EPIGEIAS; Trusted_Connection = true; ");
+            optionsBuilder.UseSqlServer("Server=DESKTOP-IK7193A\\SQLEXPRESS; Database=TradesApi; Trusted_Connection = true;");
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
