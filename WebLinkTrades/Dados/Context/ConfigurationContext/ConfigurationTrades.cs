@@ -9,7 +9,7 @@ namespace WebLinkTrades.Dados.Context.ConfigurationContext
     {
         public void Configure(EntityTypeBuilder<Trades> builder)
         {
-            builder.Property(x => x.DateTime)
+            builder.Property(x => x.DtAtivo)
                 .HasDefaultValue(DateTime.Now);
 
             builder.Property(x => x.Conta)

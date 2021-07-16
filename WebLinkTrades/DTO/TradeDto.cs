@@ -1,24 +1,20 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
-namespace WebApiTrades.Model
+namespace WebLinkTrades.DTO
 {
-    public class Trades
+    public class TradeDto
     {
         public int TradesId { get; set; }
 
-        private DateTime _dtAtivo;
-
-        public DateTime DtAtivo
-        {
-            get { return _dtAtivo; }
-            set { _dtAtivo = value == null ? DateTime.UtcNow : value; }
-        }
+        public DateTime DtAtivo { get; set; }
 
         public string Ativo { get; set; }
         public char TipoOperacao { get; set; }
         public int Quantidade { get; set; }
         public decimal Preco { get; set; }
         public int Conta { get; set; }
-
     }
 }

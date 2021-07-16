@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
-using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
 using WebApiTrades.Model;
+using WebLinkTrades.DTO;
 using WebLinkTrades.Services.Interfaces;
 
 namespace WebApiTrades.Controllers
@@ -25,45 +23,90 @@ namespace WebApiTrades.Controllers
 
         // GET api/values
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Trades>>> Get()
+        public async Task<ActionResult<IEnumerable<TradeDto>>> Get()
         {
             try
             {
-                var list = await _tradesServices.GetTodos();
+
+               var list = await _tradesServices.GetTodos();
                 return list.ToList();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
 
-                throw;
+                return StatusCode(StatusCodes.Status500InternalServerError
+                    , $"Errro ao tentar obter Trades {ex.ToString()}");
             }
 
         }
 
         // GET api/values/5
-        [HttpGet("{id}")]
-        public ActionResult<string> Get(int id)
+        [HttpGet("{id}", Name ="ObterTradesById")]
+        public ActionResult<TradeDto> Get(int id)
         {
-            return "value";
+            try
+            {
+                var entity = _tradesServices.GetById(id);
+                if (entity == null) return NotFound();
+
+                return entity;
+            }
+            catch (Exception)
+            {
+
+                return StatusCode(StatusCodes.Status500InternalServerError,
+                    "Errro ao tentar obter categorias");
+            }
         }
 
         // POST api/values
         [HttpPost]
-        public void Post([FromBody] string value)
+        public ActionResult<Trades> Post([FromBody] TradeDtoCreate trades)
         {
+            try
+            {
+               var entity =  _tradesServices.Save(trades);
+
+                return new CreatedAtRouteResult("ObterTradesById", new { id = entity.TradesId }, entity);
+            }
+            catch (Exception)
+            {
+
+                return StatusCode(StatusCodes.Status500InternalServerError,
+                "Erro ao tentar Salvar");
+            }
         }
 
         // PUT api/values/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public ActionResult<TradeDto> Put(int id, [FromBody] TradeDto trades)
         {
+            try
+            {
+                if (id != trades.TradesId) return BadRequest();
 
+                return _tradesServices.Update(trades);
+            }
+            catch (Exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError,
+                "Erro ao tentar Alterar");
+            }
         }
 
         // DELETE api/values/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public ActionResult<bool> Delete(int id)
         {
+            try
+            {
+                return _tradesServices.Delete(id);
+            }
+            catch (Exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError,
+                "Erro ao tentar Deletar");
+            }
         }
     }
 }

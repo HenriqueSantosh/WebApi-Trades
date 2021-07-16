@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -9,6 +10,7 @@ using WebLinkTrades.Dados.Context;
 using WebLinkTrades.Dados.ImplemantationTrades;
 using WebLinkTrades.Dados.Interfaces;
 using WebLinkTrades.Dados.Repository;
+using WebLinkTrades.DTO.Mappings;
 using WebLinkTrades.Services.Implemantation;
 using WebLinkTrades.Services.Interfaces;
 
@@ -31,10 +33,18 @@ namespace WebLinkTrades
 
             services.AddTransient<ITradesServices, TradesServices>();
 
-            services.AddDbContext<BaseContext>(
+            services
+                .AddDbContext<BaseContext>(
                                 options => options
-                                .UseSqlServer(Configuration.GetConnectionString("DefaultConnection"))
+                                .UseSqlServer(Configuration
+                                .GetConnectionString("DefaultConnection"))
                             );
+
+            services.AddSingleton( new  MapperConfiguration( mapper => {
+                  mapper.AddProfile(new MappingProfile());
+            }).CreateMapper());
+
+
             services.AddCors(options =>
             {
                 options.AddPolicy("AllowAll",
