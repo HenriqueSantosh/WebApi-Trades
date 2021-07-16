@@ -11,9 +11,9 @@ namespace WebLinkTrades.Migrations
                 name: "Trades",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    TradesId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    DateTime = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValue: new DateTime(2021, 7, 15, 15, 1, 36, 977, DateTimeKind.Local).AddTicks(8906)),
+                    DateTime = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValue: new DateTime(2021, 7, 15, 17, 42, 53, 395, DateTimeKind.Local).AddTicks(2292)),
                     Ativo = table.Column<string>(type: "varchar(20)", nullable: false),
                     TipoOperacao = table.Column<string>(type: "nchar(1)", nullable: false),
                     Quantidade = table.Column<int>(type: "int", nullable: false),
@@ -22,7 +22,7 @@ namespace WebLinkTrades.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Trades", x => x.Id);
+                    table.PrimaryKey("PK_Trades", x => x.TradesId);
                 });
         }
 

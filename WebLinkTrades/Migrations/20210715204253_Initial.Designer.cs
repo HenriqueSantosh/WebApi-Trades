@@ -10,7 +10,7 @@ using WebLinkTrades.Dados.Context;
 namespace WebLinkTrades.Migrations
 {
     [DbContext(typeof(BaseContext))]
-    [Migration("20210715180137_Initial")]
+    [Migration("20210715204253_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -23,7 +23,7 @@ namespace WebLinkTrades.Migrations
 
             modelBuilder.Entity("WebApiTrades.Model.Trades", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("TradesId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
@@ -38,7 +38,7 @@ namespace WebLinkTrades.Migrations
                     b.Property<DateTime>("DateTime")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2021, 7, 15, 15, 1, 36, 977, DateTimeKind.Local).AddTicks(8906));
+                        .HasDefaultValue(new DateTime(2021, 7, 15, 17, 42, 53, 395, DateTimeKind.Local).AddTicks(2292));
 
                     b.Property<decimal>("Preco")
                         .HasColumnType("decimal(10,2)");
@@ -50,7 +50,7 @@ namespace WebLinkTrades.Migrations
                         .IsRequired()
                         .HasColumnType("nchar(1)");
 
-                    b.HasKey("Id");
+                    b.HasKey("TradesId");
 
                     b.ToTable("Trades");
                 });

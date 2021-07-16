@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using WebApiTrades.Model;
 using WebLinkTrades.Dados.Context.ConfigurationContext;
+using WebLinkTrades.Dados.Seeds;
 
 namespace WebLinkTrades.Dados.Context
 {
@@ -24,6 +25,8 @@ namespace WebLinkTrades.Dados.Context
 
             base.OnModelCreating(modelBuilder);
             modelBuilder.ApplyConfiguration(new ConfigurationTrades());
+
+          TradesSeeds.Trades(modelBuilder);
         }
     }
 }

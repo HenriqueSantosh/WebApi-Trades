@@ -1,9 +1,10 @@
-﻿using System;
+﻿using AutoMapper;
+using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using WebApiTrades.Model;
 using WebLinkTrades.Dados.Interfaces;
+using WebLinkTrades.DTO;
 using WebLinkTrades.Services.Interfaces;
 
 namespace WebLinkTrades.Services.Implemantation
@@ -11,10 +12,13 @@ namespace WebLinkTrades.Services.Implemantation
     public class TradesServices : ITradesServices
     {
         private readonly ITradesRepository _trades;
+        private readonly IMapper _mapper;
 
-        public TradesServices(ITradesRepository trades)
+
+        public TradesServices(ITradesRepository trades, IMapper mapper)
         {
             _trades = trades;
+            _mapper = mapper;
         }
 
         public bool Delete(int id)
@@ -22,34 +26,41 @@ namespace WebLinkTrades.Services.Implemantation
             return _trades.Delete(id);
         }
 
-        public Trades GetById(int id)
+        public TradeDto GetById(int id)
         {
-            return _trades.GetById(id);
+            var entity = _trades.GetById(id);
+            return _mapper.Map<TradeDto>(entity);
         }
 
-        public Task<IEnumerable<Trades>> GetPrecoMedium()
+        public Task<IEnumerable<TradeDto>> GetPrecoMedium()
         {
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<Trades>> GetPrecoMediumByConta(int account)
+        public Task<IEnumerable<TradeDto>> GetPrecoMediumByConta(int account)
         {
             throw new NotImplementedException();
         }
 
-        public async Task<IEnumerable<Trades>> GetTodos()
+        public async Task<IEnumerable<TradeDto>> GetTodos()
         {
-            return await _trades.GetAll();
+            var lisTrades = await _trades.GetAll();
+            var listTradesDto = _mapper.Map<IEnumerable<TradeDto>>(lisTrades);
+            return listTradesDto;
         }
 
-        public Trades Save(Trades trade)
+        public TradeDto Save(TradeDtoCreate trade)
         {
-            return _trades.Save(trade);
+            var entity = _mapper.Map<Trades>(trade);
+            var entityCreate = _trades.Save(entity);
+            return  _mapper.Map<TradeDto>(entityCreate);
         }
 
-        public Trades Update(Trades trade)
+        public TradeDto Update(TradeDto trade)
         {
-            return _trades.Update(trade);
+            var entity = _mapper.Map<Trades>(trade);
+            var entityCreate = _trades.Update(entity);
+            return _mapper.Map<TradeDto>(entityCreate);
         }
     }
 }
