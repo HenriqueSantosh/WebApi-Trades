@@ -32,14 +32,16 @@ namespace WebLinkTrades.Services.Implemantation
             return _mapper.Map<TradeDto>(entity);
         }
 
-        public Task<IEnumerable<TradeDto>> GetPrecoMedium()
+        public IEnumerable<TradeDto> GetPrecoMedio()
         {
-            throw new NotImplementedException();
+            var lisTrades = _trades.GetPrecoMedio();
+            return _mapper.Map<IEnumerable<TradeDto>>(lisTrades);
         }
 
-        public Task<IEnumerable<TradeDto>> GetPrecoMediumByConta(int account)
+        public IEnumerable<TradeDto> GetPrecoMedioByConta(int account)
         {
-            throw new NotImplementedException();
+            var lisTrades = _trades.GetPrecoMedioByConta(account);
+            return  _mapper.Map<IEnumerable<TradeDto>>(lisTrades);
         }
 
         public async Task<IEnumerable<TradeDto>> GetTodos()
@@ -47,6 +49,12 @@ namespace WebLinkTrades.Services.Implemantation
             var lisTrades = await _trades.GetAll();
             var listTradesDto = _mapper.Map<IEnumerable<TradeDto>>(lisTrades);
             return listTradesDto;
+        }
+
+        public async Task<IEnumerable<TradeDto>> GetTradesByConta(int account)
+        {
+            var lisTrades = await _trades.GetTradesByConta(account);
+            return _mapper.Map<IEnumerable<TradeDto>>(lisTrades);
         }
 
         public TradeDto Save(TradeDtoCreate trade)

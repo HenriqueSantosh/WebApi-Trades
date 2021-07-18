@@ -8,7 +8,8 @@ namespace WebLinkTrades.Dados.Interfaces
 {
     public interface ITradesRepository : IRepository<Trades>
     {
-        Task<IEnumerable<Trades>> GetPrecoMedium();
-        Task<IEnumerable<Trades>> GetPrecoMediumByConta(int account);
+        IEnumerable<Trades> GetPrecoMedio();
+        IEnumerable<Trades> GetPrecoMedioByConta(int account);
+        Task<IEnumerable<Trades>> GetTradesByConta(int account);
     }
 }
