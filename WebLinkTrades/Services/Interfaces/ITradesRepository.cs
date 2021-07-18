@@ -7,8 +7,9 @@ namespace WebLinkTrades.Services.Interfaces
 {
     public interface ITradesServices
     {
-        Task<IEnumerable<TradeDto>> GetPrecoMedium();
-        Task<IEnumerable<TradeDto>> GetPrecoMediumByConta(int account);
+        IEnumerable<TradeDto> GetPrecoMedio();
+        IEnumerable<TradeDto> GetPrecoMedioByConta(int account);
+        Task<IEnumerable<TradeDto>> GetTradesByConta(int account);
         Task<IEnumerable<TradeDto>> GetTodos();
         TradeDto GetById(int id);
         TradeDto Save(TradeDtoCreate trade);

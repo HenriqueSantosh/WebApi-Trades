@@ -40,6 +40,41 @@ namespace WebApiTrades.Controllers
 
         }
 
+        [HttpGet("getPrecoMedio/")]
+        public  ActionResult<IEnumerable<TradeDto>> GetPrecoMedio()
+        {
+            try
+            {
+
+                var list =  _tradesServices.GetPrecoMedio();
+                return list.ToList();
+            }
+            catch (Exception ex)
+            {
+
+                return StatusCode(StatusCodes.Status500InternalServerError
+                    , $"Errro ao tentar obter Trades {ex.ToString()}");
+            }
+
+        }
+
+        [HttpGet("getbyaccount/{account}")]
+        public  ActionResult<IEnumerable<TradeDto>> GetByAccount(int account)
+        {
+            try
+            {
+
+                var list =  _tradesServices.GetPrecoMedioByConta(account);
+                return list.ToList();
+            }
+            catch (Exception ex)
+            {
+
+                return StatusCode(StatusCodes.Status500InternalServerError
+                    , $"Errro ao tentar obter Trades {ex.ToString()}");
+            }
+
+        }
         // GET api/values/5
         [HttpGet("{id}", Name ="ObterTradesById")]
         public ActionResult<TradeDto> Get(int id)
